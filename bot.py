@@ -1,16 +1,29 @@
 from telebot import types, TeleBot
+from fipi import load_subjects
 
-bot = TeleBot('')
+bot = TeleBot('8438991402:AAH2kNsDOpM5xCN1lNYDS3MoHbeJEGZQQJ0')
 
 zadanie1 = [['текст1', 1], ['текст2', 2], ['текст3', 3], ['текст4', 4], ['текст5', 5]]
 question_number = -1
+
+def add_button(title, data, buttons):
+    buttons.add(types.InlineKeyboardButton(title, callback_data=data))
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    buttons = types.InlineKeyboardMarkup()
+    subjects = load_subjects()
+    print(type(subjects))
+    for subject in subjects:
+        add_button(subject["title"], subject["data"], buttons)
+
+    bot.send_message(message.chat.id, f"{message.chat.first_name}, добро пожаловать в телеграм бот Rocinante!", reply_markup=buttons)
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     buttons = types.InlineKeyboardMarkup()
     buttons.add(types.InlineKeyboardButton('Тема 1', parse_mode='html', reply_markup=buttons, callback_data='theme1'))
     bot.send_message(message.chat.id, "Выбери тему".format(message.from_user), reply_markup=buttons)
-
 
 @bot.callback_query_handler(func=lambda callback: True)
 def callback_message(callback):
