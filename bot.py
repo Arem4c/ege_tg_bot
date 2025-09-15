@@ -1,6 +1,6 @@
 from telebot import types, TeleBot
 from fipi import load_subjects, load_tasks
-
+from random_num import random_number
 bot = TeleBot('8438991402:AAH2kNsDOpM5xCN1lNYDS3MoHbeJEGZQQJ0')
 
 zadanie1 = [['текст1', 1], ['текст2', 2], ['текст3', 3], ['текст4', 4], ['текст5', 5]]

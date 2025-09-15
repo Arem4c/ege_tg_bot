@@ -2,6 +2,8 @@ import requests
 import urllib3
 from bs4 import BeautifulSoup
 from urllib3.exceptions import InsecureRequestWarning
+from random_num import random_number
+
 
 urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -27,7 +29,7 @@ def load_tasks(project):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
     }
-    response = requests.get(URL_TASKS + project + "&page=1&pagesize=1", verify=False, headers=headers)
+    response = requests.get(URL_TASKS + project + "&page=" + random_number() + "&pagesize=" + random_number(), verify=False, headers=headers)
     soup = BeautifulSoup(response.text, "lxml")
     tasks = soup.find_all('div', class_='qblock')
     for task in tasks:
